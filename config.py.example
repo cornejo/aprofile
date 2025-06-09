@@ -1,0 +1,66 @@
+import os
+
+from classes import Config, Config_2fa, Config_Options, Config_Profile, Config_User
+
+# This is an example implementation of a config file
+
+# Multiple config objects can be provided, allowing for multiple accounts
+# to be used
+
+# Each account can define several apple developer profiles
+# These profiles will always be created, so the name must be unique
+
+# A more detailed description of the configuration options are found
+# in the dataclass definitions in classes.py
+
+
+config: list[Config] = [
+    Config(
+        user=Config_User(
+            username=os.environ["USER1"],
+            password=os.environ["PASS1"],
+        ),
+        options=Config_Options(
+            deleteExpiredProfiles=True,
+        ),
+        two_factor_authentication=Config_2fa(
+            request_app=["./2fa_commandline.py"],
+        ),
+        profiles=[
+            Config_Profile(
+                name="Demo Profile %DATE%",
+                profileType="IOS_APP_DEVELOPMENT",
+                templateName=None,
+                isOfflineProfile=False,
+                teamId="X123456G9M",
+                bundleId="Y12345843S",
+                certificateIds=["U12345V4D8"],
+                deviceIds=[],
+            ),
+        ],
+    ),
+    Config(
+        user=Config_User(
+            username=os.environ["USER2"],
+            password=os.environ["PASS2"],
+        ),
+        options=Config_Options(
+            deleteExpiredProfiles=True,
+        ),
+        two_factor_authentication=Config_2fa(
+            request_app=["./2fa_commandline.py"],
+        ),
+        profiles=[
+            Config_Profile(
+                name="Demo Profile %DATE%",
+                profileType="IOS_APP_DEVELOPMENT",
+                templateName=None,
+                isOfflineProfile=True,
+                teamId="F12345JCU9",
+                bundleId="A12345YG2N",
+                certificateIds=["812345KHQ6"],
+                deviceIds=[],
+            ),
+        ],
+    ),
+]
